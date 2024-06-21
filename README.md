@@ -1,6 +1,14 @@
 This is a public backup of an experiment to use and Arduino Uno to control my Roland PNC 3000 milling machine
 
-As the modification to GRBL 
+# DISCLAIMER: 
+This code is modified to be specific for the Roland PNC 3000 rebuild with a custom piggyback PCB to replace the original motherboard of the machine.
+For the vanilla code please check out the original codebase mentioned below.
+Use of the code in this repository at your own risk. The inputs for some of the safety features are repurposed for something else, be warned!!!
+
+# The modification
+As the modification to GRBL in the Arduino IDE got very complex I decided to use CLion and Platform IO to have more 
+IDE features and direct access to all files. I had to rearrange the project and manually place the files in right folders.
+The changes that are going to follow are destructive and lead to a non standard 'product'.
 
 The original repository can be found here https://github.com/gnea/grbl
 
@@ -13,7 +21,7 @@ I wanted to;
 
 Why not use GRBL HAL
 - I tried and failed
-- I already hand solderd an experimentation board to map Arduino Uno Pins to headers for the PNC 3000 and a Mach3 compatiple Delta 25 pin connector
+- I already hand soldered an experimentation board to map Arduino Uno Pins to headers for the PNC 3000 and a Mach3 compatiple Delta 25 pin connector
 - The original arduino software has way less dependencies (and dependency issues) to work with.
 
 Goals
