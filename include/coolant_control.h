@@ -21,7 +21,7 @@
 #ifndef coolant_control_h
 #define coolant_control_h
 
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
 
 #define COOLANT_NO_SYNC     false
 #define COOLANT_FORCE_SYNC  true
@@ -45,5 +45,5 @@ void coolant_set_state(uint8_t mode);
 
 // G-code parser entry-point for setting coolant states. Checks for and executes additional conditions.
 void coolant_sync(uint8_t mode);
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
 #endif

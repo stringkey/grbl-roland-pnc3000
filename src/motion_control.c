@@ -370,7 +370,7 @@ void mc_reset() {
 
         // Kill spindle and coolant.
         spindle_stop();
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
         coolant_stop();
 #endif
         // Kill steppers only if in any motion state, i.e. cycle, actively holding, or homing.

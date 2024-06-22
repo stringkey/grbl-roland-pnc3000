@@ -30,6 +30,7 @@
 
 #include "grbl.h" // For Arduino IDE compatibility.
 
+// #define PARKING_ENABLE // added to test if coolant was properly disabled
 
 // Define CPU pin map and default settings.
 // NOTE: OEMs can avoid the need to maintain/update the defaults.h and cpu_map.h files and use only
@@ -38,7 +39,11 @@
 #define DEFAULTS_GENERIC
 #define CPU_MAP_ATMEGA328P // Arduino Uno CPU
 
-#define ROLAND_PNC3000
+//#define ROLAND_PNC3000
+
+#ifndef ROLAND_PNC3000
+#define COOLANT_REQUIRED // defining this brings the arduino back in a state with coolant enabled
+#endif // ROLAND_PNC3000
 
 // Serial baud rate
 // #define BAUD_RATE 230400

@@ -461,7 +461,7 @@ void protocol_exec_rt_system() {
             }
         }
 
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
         // NOTE: Since coolant state always performs a planner sync whenever it changes, the current
         // run state can be determined by checking the parser state.
         // NOTE: Coolant overrides only operate during IDLE, CYCLE, HOLD, and JOG states. Ignored otherwise.
@@ -485,7 +485,7 @@ void protocol_exec_rt_system() {
                 gc_state.modal.coolant = coolant_state;
             }
         }
-#endif
+#endif // COOLANT_REQUIRED
     }
 
 #ifdef DEBUG
@@ -542,14 +542,14 @@ static void protocol_exec_rt_suspend() {
 #else
     if (block == NULL) {
         restore_condition = gc_state.modal.spindle;
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
         restore_condition |= gc_state.modal.coolant;
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
            } else {
         restore_condition = (block->condition & PL_COND_SPINDLE_MASK);
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
         restore_condition |= coolant_get_state();
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
         }
 #endif
 
@@ -573,9 +573,9 @@ static void protocol_exec_rt_suspend() {
 #ifndef PARKING_ENABLE
 
                     spindle_set_state(SPINDLE_DISABLE, 0.0); // De-energize
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
                     coolant_set_state(COOLANT_DISABLE);     // De-energize
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
 #else
 
                     // Get current position and store restore location and spindle retract waypoint.
@@ -605,7 +605,14 @@ static void protocol_exec_rt_suspend() {
                         parking_target[PARKING_AXIS] = retract_waypoint;
                         pl_data->feed_rate = PARKING_PULLOUT_RATE;
                         pl_data->condition |= (restore_condition & PL_COND_ACCESSORY_MASK); // Retain accessory state
-                        pl_data->spindle_speed = restore_spindle_speed;
+#ifdef VARIABLE_SPINDLE
+// todo: made conditional when bug was found that fixed speed spindle could not be combined with parking
+                          pl_data->spindle_speed = restore_spindle_speed;
+#else
+#warning "Un-tested combination of fixed spindle speed and parking"
+#endif // VARIABLE_SPINDLE
+
+
                         mc_parking_motion(parking_target, pl_data);
                       }
 
@@ -613,7 +620,9 @@ static void protocol_exec_rt_suspend() {
                       pl_data->condition = (PL_COND_FLAG_SYSTEM_MOTION|PL_COND_FLAG_NO_FEED_OVERRIDE);
                       pl_data->spindle_speed = 0.0;
                       spindle_set_state(SPINDLE_DISABLE,0.0); // De-energize
+#ifdef COOLANT_REQUIRED
                       coolant_set_state(COOLANT_DISABLE); // De-energize
+#endif // COOLANT_REQUIRED
 
                       // Execute fast parking retract motion to parking target location.
                       if (parking_target[PARKING_AXIS] < PARKING_TARGET) {
@@ -627,8 +636,9 @@ static void protocol_exec_rt_suspend() {
                       // Parking motion not possible. Just disable the spindle and coolant.
                       // NOTE: Laser mode does not start a parking motion to ensure the laser stops immediately.
                       spindle_set_state(SPINDLE_DISABLE,0.0); // De-energize
+#ifdef COOLANT_REQUIRED
                       coolant_set_state(COOLANT_DISABLE);     // De-energize
-
+#endif // COOLANT_REQUIRED
                     }
 
 #endif
@@ -643,9 +653,9 @@ static void protocol_exec_rt_suspend() {
                         report_feedback_message(MESSAGE_SLEEP_MODE);
                         // Spindle and coolant should already be stopped, but do it again just to be sure.
                         spindle_set_state(SPINDLE_DISABLE, 0.0); // De-energize
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
                         coolant_set_state(COOLANT_DISABLE); // De-energize
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
                         st_go_idle(); // Disable steppers
                         while (!(sys.abort)) { protocol_exec_rt_system(); } // Do nothing until reset.
                         return; // Abort received. Return to re-initialize.
@@ -694,7 +704,7 @@ static void protocol_exec_rt_suspend() {
                                 }
                             }
                         }
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
                         if (gc_state.modal.coolant != COOLANT_DISABLE) {
                             // Block if safety door re-opened during prior restore actions.
                             if (bit_isfalse(sys.suspend, SUSPEND_RESTART_RETRACT)) {
@@ -704,7 +714,7 @@ static void protocol_exec_rt_suspend() {
                                 delay_sec(SAFETY_DOOR_COOLANT_DELAY, DELAY_MODE_SYS_SUSPEND);
                             }
                         }
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
 
 #ifdef PARKING_ENABLE
                         // Execute slow plunge motion from pull-out position to resume position.
@@ -721,7 +731,15 @@ static void protocol_exec_rt_suspend() {
                             // original position through valid machine space or by not moving at all.
                             pl_data->feed_rate = PARKING_PULLOUT_RATE;
                                               pl_data->condition |= (restore_condition & PL_COND_ACCESSORY_MASK); // Restore accessory state
-                                              pl_data->spindle_speed = restore_spindle_speed;
+#ifdef VARIABLE_SPINDLE
+// todo: made conditional when bug was found that fixed speed spindle could not be combined with parking
+
+
+
+                            pl_data->spindle_speed = restore_spindle_speed;
+#else
+#pragma message("Un-tested combination of fixed spindle speed and parking")
+#endif // VARIABLE_SPINDLE
                             mc_parking_motion(restore_target, pl_data);
                           }
                         }

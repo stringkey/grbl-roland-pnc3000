@@ -20,7 +20,7 @@
 
 #include "grbl.h"
 
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
 
 void coolant_init() {
     COOLANT_FLOOD_DDR |= (1 << COOLANT_FLOOD_BIT); // Configure as output pin

@@ -1082,7 +1082,7 @@ uint8_t gc_execute_line(char *line) {
     }
     pl_data->condition |= gc_state.modal.spindle; // Set condition flag for planner use.
 
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
     // [8. Coolant control ]:
     if (gc_state.modal.coolant != gc_block.modal.coolant) {
         // NOTE: Coolant M-codes are modal. Only one command per line is allowed. But, multiple states
@@ -1091,7 +1091,7 @@ uint8_t gc_execute_line(char *line) {
         gc_state.modal.coolant = gc_block.modal.coolant;
     }
     pl_data->condition |= gc_state.modal.coolant; // Set condition flag for planner use.
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
 
     // [9. Override control ]: NOT SUPPORTED. Always enabled. Except for a Grbl-only parking control.
 #ifdef ENABLE_PARKING_OVERRIDE_CONTROL
@@ -1261,9 +1261,9 @@ uint8_t gc_execute_line(char *line) {
                 }
                 system_flag_wco_change(); // Set to refresh immediately just in case something altered.
                 spindle_set_state(SPINDLE_DISABLE, 0.0);
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
                 coolant_set_state(COOLANT_DISABLE);
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
             }
             report_feedback_message(MESSAGE_PROGRAM_END);
         }

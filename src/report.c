@@ -676,12 +676,12 @@ void report_realtime_status() {
         print_uint8_base10(sys.spindle_speed_ovr);
 
         uint8_t sp_state = spindle_get_state();
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
         uint8_t cl_state = coolant_get_state();
         if (sp_state || cl_state) {
 #else
         if (sp_state) {
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
             printPgmString(PSTR("|A:"));
             if (sp_state) { // != SPINDLE_STATE_DISABLE
 #ifdef VARIABLE_SPINDLE
@@ -696,9 +696,9 @@ void report_realtime_status() {
                 else { serial_write('C'); } // CCW
 #endif
             }
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
             if (cl_state & COOLANT_STATE_FLOOD) { serial_write('F'); }
-#endif // ROLAND_PNC3000
+#endif // COOLANT_REQUIRED
 
 #ifdef ENABLE_M7
             if (cl_state & COOLANT_STATE_MIST) { serial_write('M'); }

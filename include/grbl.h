@@ -46,7 +46,7 @@
 #include "defaults.h"
 #include "cpu_map.h"
 #include "planner.h"
-#ifndef ROLAND_PNC3000
+#ifdef COOLANT_REQUIRED
 #include "coolant_control.h"
 #endif
 #include "eeprom.h"
