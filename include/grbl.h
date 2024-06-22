@@ -46,7 +46,9 @@
 #include "defaults.h"
 #include "cpu_map.h"
 #include "planner.h"
+#ifndef ROLAND_PNC3000
 #include "coolant_control.h"
+#endif
 #include "eeprom.h"
 #include "gcode.h"
 #include "limits.h"

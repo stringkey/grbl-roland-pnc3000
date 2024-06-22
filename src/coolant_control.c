@@ -20,6 +20,7 @@
 
 #include "grbl.h"
 
+#ifndef ROLAND_PNC3000
 
 void coolant_init() {
     COOLANT_FLOOD_DDR |= (1 << COOLANT_FLOOD_BIT); // Configure as output pin
@@ -119,3 +120,4 @@ void coolant_sync(uint8_t mode) {
     protocol_buffer_synchronize(); // Ensure coolant turns on when specified in program.
     coolant_set_state(mode);
 }
+#endif

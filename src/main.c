@@ -87,7 +87,9 @@ int main(void) {
         serial_reset_read_buffer(); // Clear serial read buffer
         gc_init(); // Set g-code parser to default state
         spindle_init();
+#ifndef ROLAND_PNC3000
         coolant_init();
+#endif
         limits_init();
         probe_init();
         plan_reset(); // Clear block buffer and planner variables
