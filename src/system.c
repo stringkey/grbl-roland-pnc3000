@@ -313,7 +313,7 @@ void system_convert_array_steps_to_mpos(float *position, int32_t *steps)
   for (idx=0; idx<N_AXIS; idx++) {
     position[idx] = system_convert_axis_steps_to_mpos(steps, idx);
   }
-  return;
+//  return;
 }
 
 

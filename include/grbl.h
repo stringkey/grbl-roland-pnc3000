@@ -22,7 +22,7 @@
 #define grbl_h
 
 // Grbl versioning system
-#define GRBL_VERSION "1.1h"
+#define GRBL_VERSION "1.1 ROLAND PNC 3000"
 #define GRBL_VERSION_BUILD "20190830"
 
 // Define standard libraries used by Grbl.

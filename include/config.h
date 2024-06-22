@@ -106,7 +106,7 @@
 #define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
 // #define HOMING_CYCLE_2                         // OPTIONAL: Uncomment and add axes mask to enable
 
-// NOTE: The following are two examples to setup homing for 2-axis machines.
+// NOTE: The following are two examples to set up homing for 2-axis machines.
 // #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))  // NOT COMPATIBLE WITH COREXY: Homes both X-Y in one cycle. 
 
 // #define HOMING_CYCLE_0 (1<<X_AXIS)  // COREXY COMPATIBLE: First home X
@@ -278,7 +278,7 @@
 // the associated data is refreshed and included in the status report. However, if one of these value
 // changes, Grbl will automatically include this data in the next status report, regardless of what the
 // count is at the time. This helps reduce the communication overhead involved with high frequency reporting
-// and agressive streaming. There is also a busy and an idle refresh count, which sets up Grbl to send
+// and aggressive streaming. There is also a busy and an idle refresh count, which sets up Grbl to send
 // refreshes more often when its not doing anything important. With a good GUI, this data doesn't need
 // to be refreshed very often, on the order of a several seconds.
 // NOTE: WCO refresh must be 2 or greater. OVR refresh must be 1 or greater.
@@ -402,7 +402,7 @@
 // but still have a problem when arcs are full-circles (2*pi). This define accounts for the floating
 // point issues when offset-based arcs are commanded as full circles, but get interpreted as extremely
 // small arcs with around machine epsilon (1.2e-7rad) due to numerical round-off and precision issues.
-// This define value sets the machine epsilon cutoff to determine if the arc is a full-circle or not.
+// This 'define' value sets the machine epsilon cutoff to determine if the arc is a full-circle or not.
 // NOTE: Be very careful when adjusting this value. It should always be greater than 1.2e-7 but not too
 // much greater than this. The default setting should capture most, if not all, full arc error situations.
 #define ARC_ANGULAR_TRAVEL_EPSILON 5E-7 // Float (radians)
@@ -566,7 +566,7 @@
 
 // Configure options for the parking motion, if enabled.
 #define PARKING_AXIS Z_AXIS // Define which axis that performs the parking motion
-#define PARKING_TARGET -5.0 // Parking axis target. In mm, as machine coordinate [-max_travel,0].
+#define PARKING_TARGET (-5.0) // Parking axis target. In mm, as machine coordinate [-max_travel,0].
 #define PARKING_RATE 500.0 // Parking fast rate after pull-out in mm/min.
 #define PARKING_PULLOUT_RATE 100.0 // Pull-out/plunge slow feed rate in mm/min.
 #define PARKING_PULLOUT_INCREMENT 5.0 // Spindle pull-out and plunge distance in mm. Incremental distance.
@@ -605,7 +605,7 @@
 #define RPM_POINT23  9627.8  // Used N_PIECES >=3. Junction point between lines 2 and 3.
 #define RPM_POINT34  10813.9 // Used N_PIECES = 4. Junction point between lines 3 and 4.
 #define RPM_LINE_A1  3.197101e-03  // Used N_PIECES >=1. A and B constants of line 1.
-#define RPM_LINE_B1  -3.526076e-1
+#define RPM_LINE_B1  (-3.526076e-1)
 #define RPM_LINE_A2  1.722950e-2   // Used N_PIECES >=2. A and B constants of line 2.
 #define RPM_LINE_B2  8.588176e+01
 #define RPM_LINE_A3  5.901518e-02  // Used N_PIECES >=3. A and B constants of line 3.
