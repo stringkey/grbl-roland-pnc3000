@@ -39,7 +39,7 @@
 #define DEFAULTS_GENERIC
 #define CPU_MAP_ATMEGA328P // Arduino Uno CPU
 
-//#define ROLAND_PNC3000
+#define ROLAND_PNC3000
 
 #ifndef ROLAND_PNC3000
 #define COOLANT_REQUIRED // defining this brings the arduino back in a state with coolant enabled
@@ -514,8 +514,8 @@
 // Defines the EEPROM data restored upon a settings version change and `$RST=*` command. Whenever the
 // the settings or other EEPROM data structure changes between Grbl versions, Grbl will automatically
 // wipe and restore the EEPROM. This macro controls what data is wiped and restored. This is useful
-// particularily for OEMs that need to retain certain data. For example, the BUILD_INFO string can be
-// written into the Arduino EEPROM via a seperate .INO sketch to contain product data. Altering this
+// particularly for OEMs that need to retain certain data. For example, the BUILD_INFO string can be
+// written into the Arduino EEPROM via a separate .INO sketch to contain product data. Altering this
 // macro to not restore the build info EEPROM will ensure this data is retained after firmware upgrades.
 // NOTE: Uncomment to override defaults in settings.h
 // #define SETTINGS_RESTORE_ALL (SETTINGS_RESTORE_DEFAULTS | SETTINGS_RESTORE_PARAMETERS | SETTINGS_RESTORE_STARTUP_LINES | SETTINGS_RESTORE_BUILD_INFO)
@@ -534,7 +534,7 @@
 // option forces the planner buffer to completely empty whenever the EEPROM is written to prevent
 // any chance of lost steps.
 // However, this doesn't prevent issues with lost serial RX data during an EEPROM write, especially
-// if a GUI is premptively filling up the serial RX buffer simultaneously. It's highly advised for
+// if a GUI is preemptively filling up the serial RX buffer simultaneously. It's highly advised for
 // GUIs to flag these gcodes (G10,G28.1,G30.1) to always wait for an 'ok' after a block containing
 // one of these commands before sending more data to eliminate this issue.
 // NOTE: Most EEPROM write commands are implicitly blocked during a job (all '$' commands). However,
@@ -634,7 +634,7 @@
 
   The dual axis feature works by cloning an axis step output onto another pair of step
   and direction pins. The step pulse and direction of the cloned motor can be set 
-  independently of the main axis motor. However to save precious flash and memory, this
+  independently of the main axis motor. However, to save precious flash and memory, this
   dual axis feature must share the same settings (step/mm, max speed, acceleration) as the 
   parent motor. This is NOT a feature for an independent fourth axis. Only a motor clone.
 
@@ -678,7 +678,7 @@
 // integrate this feature without arguably too much work. 
 // Variable spindle (i.e. laser mode) does NOT work with this shield as configured. While
 // variable spindle technically can work with this shield, it requires too many changes for
-// most user setups to accomodate. It would best be implemented by sharing all limit switches
+// most user setups to accommodate. It would best be implemented by sharing all limit switches
 // on pins D9/D10 (as [X1,Z]/[X2,Y] or [X,Y2]/[Y1,Z]), home each axis independently, and 
 // updating lots of code to ensure everything is running correctly.
 // #define DUAL_AXIS_CONFIG_CNC_SHIELD_CLONE  // Uncomment to select. Comment other configs.

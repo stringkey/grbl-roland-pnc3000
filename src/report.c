@@ -643,9 +643,11 @@ void report_realtime_status() {
 #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
             if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_SAFETY_DOOR)) { serial_write('D'); }
 #endif
+#ifdef HAS_PHYSICAL_PANEL
             if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_RESET)) { serial_write('R'); }
             if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_FEED_HOLD)) { serial_write('H'); }
             if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_CYCLE_START)) { serial_write('S'); }
+#endif // HAS_PHYSICAL_PANEL
         }
     }
 #endif
