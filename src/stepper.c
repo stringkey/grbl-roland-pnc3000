@@ -20,6 +20,7 @@
 */
 
 #include "grbl.h"
+#include "roland_pnc3000.h"
 
 
 // Some useful constants.
@@ -951,6 +952,10 @@ void st_prep_buffer() {
                 }
             }
         } while (mm_remaining > prep.mm_complete); // **Complete** Exit loop. Profile complete.
+
+        update_feed_rate(
+                (uint16_t) floor((prep.current_speed*10)/prep.maximum_speed)
+                );
 
 #ifdef VARIABLE_SPINDLE
         /* -----------------------------------------------------------------------------------

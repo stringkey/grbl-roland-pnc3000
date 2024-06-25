@@ -98,6 +98,7 @@
 
   #if !defined(ENABLE_DUAL_AXIS)
 
+  #ifdef COOLANT_REQUIRED
     // Define flood and mist coolant enable output pins.
     #define COOLANT_FLOOD_DDR   DDRC
     #define COOLANT_FLOOD_PORT  PORTC
@@ -105,6 +106,7 @@
     #define COOLANT_MIST_DDR   DDRC
     #define COOLANT_MIST_PORT  PORTC
     #define COOLANT_MIST_BIT   4  // Uno Analog Pin 4
+  #endif // COOLANT_REQUIRED
 
     // Define spindle enable and spindle direction output pins.
     #define SPINDLE_ENABLE_DDR    DDRB
@@ -146,11 +148,12 @@
     // #define SPINDLE_TCCRB_INIT_MASK   ((1<<CS21) | (1<<CS20)) // 1/32 prescaler -> 1.96kHz
     #define SPINDLE_TCCRB_INIT_MASK      (1<<CS22)               // 1/64 prescaler -> 0.98kHz (J-tech laser)
 
+#ifdef VARIABLE_SPINDLE
     // NOTE: On the 328p, these must be the same as the SPINDLE_ENABLE settings.
     #define SPINDLE_PWM_DDR   DDRB
     #define SPINDLE_PWM_PORT  PORTB
     #define SPINDLE_PWM_BIT   3    // Uno Digital Pin 11
-  
+#endif // VARIABLE_SPINDLE
   #else
 
     // Dual axis feature requires an independent step pulse pin to operate. The independent direction pin is not 
