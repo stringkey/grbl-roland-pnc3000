@@ -952,11 +952,9 @@ void st_prep_buffer() {
                 }
             }
         } while (mm_remaining > prep.mm_complete); // **Complete** Exit loop. Profile complete.
-
-        update_feed_rate(
-                (uint16_t) floor((prep.current_speed*10)/prep.maximum_speed)
-                );
-
+#ifdef ROLAND_PNC3000
+        update_feed_rate((uint16_t) floor((prep.current_speed*10)/1320));
+#endif //ROLAND_PNC3000
 #ifdef VARIABLE_SPINDLE
         /* -----------------------------------------------------------------------------------
           Compute spindle speed PWM output for step segment
